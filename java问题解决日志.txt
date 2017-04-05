@@ -70,3 +70,10 @@
 12.问题描述：使用hibernate插入数据报object references an unsaved transient instance。
 
 问题原因及解决方案：由hibernate中save的顺序导致的。在@OneToMany里面的cascade默认是none，即不会级联，但是在数据库里保存数据的时候，没有手动保存many的一方，就会出错，应该先保存，many的一方，才能保存one的一方，如果把cascade设置成为all。这样就不会有问题了。
+
+13.问题描述：在使用git bush进行push和pull操作时，提示Warning: Permanently added the RSA host key for IP address '192.30.255.113' to the list of known hosts.
+
+问题原因及解决方案：上述那条警告的大概意思就是：警告：为IP地址192.30.255.113的主机（RSA连接的）持久添加到hosts文件中，那就来添加吧！在windows/system32/drivers/etc文件夹中的hosts文件中添加行：
+192.30.255.113　　github.com，问题解决。
+
+
