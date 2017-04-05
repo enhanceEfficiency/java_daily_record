@@ -1,0 +1,72 @@
+2017-03-23
+
+1.问题描述：搭建spring-spring mvc-mybatis框架时遇到的问题，mapper接口上写@Repository，但调用mapper的bean时提示no such bean。
+
+问题原因及解决方案：spring不能通过component-scan直接管理mapper，需要在spring的配置文件中配置MapperScannerConfigurer并配置数据源的相关信息。
+
+2.问题描述：使用ajax时，后台使用response.sendRedirect无法跳转（重定向）页面。
+
+问题原因及解决方案：使用ajax时，页面无法直接跳转，应该将要跳转的url传递到前台，在ajax的回调函数中使用location.href=url进行跳转。
+
+3.问题描述：在spring配置文件中使用properties，用OGNL表达式#{db.jdbc.url}无法获得文件中的参数。
+
+问题原因及解决方案：层级关系出现错误，应该使用#{db['jdbc.url']}这种表达式形式获取。
+
+4.问题描述：调用第三方API（芝麻信用）时，在参数中有一个类（ZhimaRequest<T extends ZhimaResponse>）提示警告：“类为原始类型，应该增加泛型进行调用”，而加入T或者具体类型（ZhimaResponse）时，要么本类编译错误，要么调用本类的类编译错误。
+
+问题原因及解决方案：参数中的这个类带有有边界的泛型（T extends ZhimaResponse），如果写T无法满足边界，写ZhimaResponse则返回值固定为ZhimaResponse，无法作用于其子类。此时，应该在方法的调用中写成ZhimaRequest<? extends ZhimaResponse>或ZhimaRequest<?>，警告消除。
+
+2017-03-24
+
+5.问题描述：使用多个tomcat时端口冲突。
+
+问题原因及解决方案：一个tomcat会占用多个端口：默认8005、8009、8080、8443，这些端口可以在tomcat文件夹下的conf/server.xml中修改，多个tomcat运行时，这些端口都不能重复。注意：端口号的范围是1~65535，可以在这些端口前加1、2进行区别。
+
+附各端口用途：默认的8005是 tomcat接受关闭指令的端口，比如你要关闭tomcat，这个接口会收到shutdown的指令，然后关闭所有后台线程。8080是http 1.1 connector，也就是接收处理http请求的端口，如果你只用一个tomcat处理所有请求，可以只使用这个connector。8009是ajp connector，它一般用来设置tomcat集群。因为tomcat作为servlet容器，对于处理静态资源的能力不是很好，所以一般大点的项目都会在tomcat前面加个apache服务器，用来处理静态资源和负载均衡，通过预先设定的规则把动态请求通过ajp端口交给tomcat处理，这时可以只使用ajp connector。
+
+2017-03-27
+
+*6.问题描述：使用（myeclipse内置的）tomcat启动（玺欢钱前台）项目时报java.lang.ClassNotFoundException: org.apache.tomcat.websocket.server.WsSci
+
+问题原因及解决方案：部在外置的tomcat启动没问题，应该是配置冲突的问题。在网上也没有太多的线索，待以后再探索解决方案。
+
+7.问题描述：加载资源超时Loading of resource 'E:\SOFTWARE\myeclipse\workspace\p2p_standard_2.0\WebRoot\WEB-INF\applicationContext.xml' took more than 60sec	
+
+问题原因及解决方案：对项目执行project->clean即可
+
+8.问题描述：生产环境中数据库连接未释放，连接数过一会就自动满了。
+
+问题原因及解决方案：使用hibernate的Session时（调用了openSession的方法），忘记关闭Session。应该在finally中对Session进行关闭（session.close()或session.flush()）。
+
+2017-03-29
+
+9.问题描述：JSF中如何实现下拉选，如何获取显示的值？
+
+问题原因及解决方案：
+示例1：直接写出值
+<h:selectOneMenu value="#{HFBankUploadLogHome.instance.upStatus}">
+	<f:selectItem itemValue="" itemLabel="--请选择上传状态--" />
+	<f:selectItem itemLabel="等待上传" itemValue="wait" />
+	<f:selectItem itemLabel="上传完成" itemValue="done" />
+	<f:selectItem itemLabel="上传出错" itemValue="error" />
+</h:selectOneMenu>
+示例2：维护数据字典
+<h:selectOneMenu value="#{awardList.example.type}">
+	<f:selectItem itemValue="" itemLabel="--请选择奖品类别--"/>
+	<f:selectItems var="ub" value="#{dictUtil.getDictByParentKey('award_type')}"
+		itemValue="#{ub.key}" itemLabel="#{ub.value}"/>
+</h:selectOneMenu>
+
+2017-04-01
+
+10.问题描述： List/array has to be annotated with an @OrderColumn (or @IndexColumn)
+
+问题原因及解决方案：Hibernate中级联关系应该使用Set进行体现，如果使用List或者数组的话，需要在列上增加OrderColumn标签，但是同时容易在级联表中引入null列。
+
+*11.问题描述： hibernate.hbm2ddl.auto设置为update时，不自动创建表
+
+暂未解决
+
+12.问题描述：使用hibernate插入数据报object references an unsaved transient instance。
+
+问题原因及解决方案：由hibernate中save的顺序导致的。在@OneToMany里面的cascade默认是none，即不会级联，但是在数据库里保存数据的时候，没有手动保存many的一方，就会出错，应该先保存，many的一方，才能保存one的一方，如果把cascade设置成为all。这样就不会有问题了。

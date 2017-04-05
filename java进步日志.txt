@@ -1,0 +1,76 @@
+2017-02-23
+1.开通了github账号，学会了git和eclipse git插件的简单使用。
+2.简单学习了hibernate的一些标签。
+
+2017-02-24
+1.在eclipse中可以使用PropEdit插件读取properties文件中的中文。
+2.学习使用log4j。Log4j建议只使用四个级别的日志，优先级从高到低分别是ERROR、WARN、INFO、DEBUG。新建Logger、Spring可以管理Logger，但要在web.xml中进行参数配置。
+3.了解了脏数据、生产、预生产、升级等的概念。脏数据（Dirty Read）是指源系统中的数据不在给定的范围内或对于实际业务毫无意义，或是数据格式非法，以及在源系统中存在不规范的编码和含糊的业务逻辑。
+
+2017-03-02
+1.学习了获取classpath的方法：classpath在web项目中指的是class文件所在的路径，即/webapps/项目名/WEB-INF/classes/
+类名.class.getClassLoader().getResource("").getPath()
+获取classpath的上级目录
+.class.getClassLoader().getResource("../").getPath()
+2.从后台生成图片显示在页面上，只需使用ImageIO.write将图片输出在某个路径上，在页面上将图片的来源定义为该路径。
+3.使用hibernate实体类生成表，只需配置hibernate.hbm2ddl.auto项，设为update即可实现表自动更新，但是不能自动删除字段。
+
+2017-03-09
+1.hibernate saveOrUpdate方法与merge方法。hibernate想要更新部分字段只能先查后更或者写hql的更新语句。
+2.hibernate 自动造表配置 hbm2ddl.auto设置为create时将在启动服务器时删除所有表再重建，create-drop则是启动时重建，关闭时删除，
+
+2017-03-10
+1.Long.toString(l, radix)可以方便实现进制转化。
+
+2017-03-14
+1.使用quartz java框架实现定时任务。
+
+2017-03-16
+1.学习书写上线手册和文档。 
+
+2017-03-23
+1.mybatis的mapper也可以通过注解的方式写在文件里。@Insert @Select @Update @Delete
+
+2017-03-24
+1.可以使用jquery rotate库实现页面组件的转动。
+2.Java模板引擎 FreeMarker、Velocity。
+
+2017-03-27
+1.查看数据库的连接数
+SQL> select count(*) from v$session #当前的连接数
+SQL> Select count(*) from v$session where status='ACTIVE' #并发连接数
+SQL> select value from v$parameter where name = 'processes' --数据库允许的最大连接数 
+SQL> show parameter processes #最大连接  
+SQL> select username,count(username) from v$session where username is not null group by username; #查看不同用户的连接数 
+
+2.在java代码中,如果使用ht.getSessionFactory().openSession(),使用完必须关闭session。
+如果使用的是getCurrentSession() 一定不能关闭session。以后开发的时候建议使用getCurrentSession(),好处1,不用关闭session,好处2,使用的是ht的本身的session不需要新建立连接速度快,好处3,不占用数据库连接数。
+
+3.建议：废弃代码经鉴定不会再使用的，一律存档后删除。
+
+4.生产环境中只有软删除，即把状态更新为删除，并不会真正从数据库里删除数据。
+
+
+2017-03-28
+
+1.可以使用开源的JFreeChart来绘制柱状图、饼形图等。
+
+2.比较常用的实现Java导入、导出Excel的技术有两种Jakarta POI和Java Excel。
+
+2017-03-29
+
+1.在oracle中可以使用declare声明变量，用于begin...end包围的存储过程中。
+
+2.在oracle中可以使用execute immediate执行字符串sql。
+
+2017-03-30
+
+1.jdbc向mysql中插入字符时报异常问题一般可以通过在my.ini文件中设置字符集来解决，设置完之后需要重启mysql服务，有可能还需要重新建库建表。更改mysql ini 拒绝访问，右击my.ini文件，属性—>安全—>修改权限即可。
+
+2017-04-01
+
+1.hibernate的@OneToMany和@ManyToOne标签的使用，通常成对使用并在一对多的一端增加mappedBy比较好，可以避免生成中间表。也可以在@ManyToOne的多端使用@JoinColumn，但是如果在@OneToMany的多端使用@JoinColumn的话，名称不能重复。
+
+2017-04-05
+
+1.在windows下可以用7z工具打出tar.gz压缩包。
