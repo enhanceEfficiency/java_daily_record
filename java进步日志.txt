@@ -74,3 +74,8 @@ SQL> select username,count(username) from v$session where username is not null g
 2017-04-05
 
 1.在windows下可以用7z工具打出tar.gz压缩包。
+2.linux下重启tomcat：
+	1)使用ps -ef | grep tomcat查出tomcat的进程号；
+	2)使用kill命令（可以加-9强行执行）结束tomcat进程；
+	3)使用cd命令进入tomcat的目录；
+	4)最后执行./startup.sh启动tomcat。
