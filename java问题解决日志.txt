@@ -76,4 +76,11 @@
 问题原因及解决方案：上述那条警告的大概意思就是：警告：为IP地址192.30.255.113的主机（RSA连接的）持久添加到hosts文件中，那就来添加吧！在windows/system32/drivers/etc文件夹中的hosts文件中添加行：
 192.30.255.113　　github.com，问题解决。
 
+14.问题描述：memcached.exe点击不生成服务。
+问题时间：2017-04-10
+问题原因及解决方案：应该在命令行进行操作
+memcached.exe -d install
+memcached.exe -d start  
+或
+net start "memcached Server"  
 
