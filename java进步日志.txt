@@ -79,3 +79,6 @@ SQL> select username,count(username) from v$session where username is not null g
 	2)使用kill命令（可以加-9强行执行）结束tomcat进程；
 	3)使用cd命令进入tomcat的目录；
 	4)最后执行./startup.sh启动tomcat。
+
+2017-04-13
+1.使用jQuery的easyUI创建页面的UI组件。
