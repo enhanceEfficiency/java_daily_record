@@ -86,3 +86,32 @@ memcached.exe -d start
 或
 net start "memcached Server"  
 
+2017-04-14
+15.问题描述：在vmware station中安装centos 64位软件时，VMware提示：已将该虚拟机配置为使用 64 位客户机操作系统。但是，无法执行 64 位操作。
+
+问题原因及解决方案：BIOS中未允许虚拟化或360核晶防护将其屏蔽。
+(1)在bios中将虚拟化设置为可用。Intel Virtualization Technology设置为enable。
+(2)如果安装了360安全卫士，禁用针对64位cpu的核晶防护。
+
+
+2017-04-17
+16.问题描述：Could not calculate build plan: Plugin org.apache.maven.plugins:maven-resources-plugin:2.6 or one of its dependencies could not be resolved: 
+
+问题原因及解决方案：maven插件未成功安装。应删除.m2文件夹内maven插件相关内容再更新maven项目，可能需要重启电脑。
+
+17. 问题描述：IOException while loading persisted sessions: java.io.EOFException
+
+分析: session未超时的情况下，服务器关闭的时候会被序列化为工程名\SESSIONS.ser，tomcat 启动的时候再加载进来，EOFException表示tomcat上次关闭时还有一些活动连接，所以在重启时tomcat尝试去恢复这些session，但是在输入过程中意外地到达文件尾或流尾的信号,导致从session中获取数据失败。异常是tomcat本身的问题，由于tomcat上次非正常关闭时有一些活动session被持 久化（表现为一些临时文件），在重启时，tomcat尝试去恢复这些session的持久化数据但又读取失败造成的。此异常不影响系统的使用。
+
+解决办法:将 tomcat_home\work\Catalina\localhost\『工程名』\SESSIONS.ser删除。如果正常关闭服务端，该文件是自 动删除的。考虑到每个人的tomat的工作目录不同，建议在“搜索”功能中找到你的SESSIONS.ser文件，而且只需要删 除..\yourProjectName\下的SESSIONS.ser即可。最简单的办法是work下的全部删除，然后重启tomcat。
+
+
+18. 问题描述：java.lang.IllegalStateException: setAttribute: Session already invalidated
+
+异常原因为：从Session中获取属性值的时候，Session已经无效。有两种可能导致Session无效（1）Session timeout；（2）程序中调用了session.invalidate()方法。
+
+19. 问题描述：Intellij从SVN中解析文件时报异常Cannot load supported formats: Cannot run program “svn”: CreateProcess error=2
+
+问题原因：SVN 命令行工具不存在
+
+解决方案：修复方法：如果已经下载了svn客户端（TortoiseSVN），选择modify 即可

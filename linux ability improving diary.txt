@@ -1,0 +1,21 @@
+2017-04-14
+
+1. 使用tar命令进行压缩和解压。
+
+2017-04-17
+
+2.linux下使用tar命令：
+解压 tar -zxvf xxx.tar.gz
+压缩 tar -zcvf xxx.tar.gz xxx/
+查看 tar -ztvf xxx.tar.gz
+
+3.linux下配置java环境变量：
+用户级别 vim ~/.bashrc
+在文件末尾加入：
+export JAVA_HOME=/home/gsein/Software/jdk1.8.0_121
+export JRE_HOME=$JAVA_HOME/jre
+export CLASSPATH=.:$JAVA_HOME/lib/dt.jar:$JAVA_HOME/lib/tools.jar
+export PATH=$JAVA_HOME/bin:$PATH
+
+4.修改系统时间：
+date -s "2017-05-20 `date +%T`"

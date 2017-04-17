@@ -82,3 +82,10 @@ SQL> select username,count(username) from v$session where username is not null g
 
 2017-04-13
 1.使用jQuery的easyUI创建页面的UI组件。
+
+2017-04-14
+1.使用select * from v$version查看数据库版本。
+
+2017-04-17
+1.java区分linux和window版本。
+
