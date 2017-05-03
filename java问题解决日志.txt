@@ -155,3 +155,12 @@ net start "memcached Server"
 		mysql> update user set password=password('123') where user='root' and host='localhost'; 
 	mysql> flush privileges;
 	
+2017-05-02
+
+21. 如何修改项目在tomcat上的部署路径（如部署到ROOT文件夹中）。
+
+在myeclipse中右键点击项目，选properties--myeclipse--project facets--web，在里面修改Web context-root即可。
+
+22. hibernate使用hql语句查询时，如果使用了memcached等缓存服务并且两次查询语句相同，第两次查询会从缓存中读取数据，造成查询结果不及时更新。
+
+解决方案：在hql中增加必为真的随机数作为筛选条件。
