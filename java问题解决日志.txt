@@ -164,3 +164,15 @@ net start "memcached Server"
 22. hibernate使用hql语句查询时，如果使用了memcached等缓存服务并且两次查询语句相同，第两次查询会从缓存中读取数据，造成查询结果不及时更新。
 
 解决方案：在hql中增加必为真的随机数作为筛选条件。
+
+2017-05-11
+
+23. 在命令行运行ant时报错Unsupported major.minor version 52
+原因：ant 1.10.x版本仅支持java 1.8
+解决方案，下载ant 1.9.9使用
+
+2017-05-18
+
+24. 在使用@ResponseBody标签返回json时，已经引入了jackson的三个包，仍然报406错误。
+原因：@ResponseBody标签需要驱动才可正常使用。
+解决方案：在spring配置文件中增加<mvc:annotation-driven />标签。

@@ -13,3 +13,5 @@
 ?  Top #1智能补全：Ctrl+Shift+Space
 ?  Top #1自我修复：Alt+Enter
 ?  Top #1重构一切：Ctrl+Shift+Alt+T
+
+4.在IDEA中可以使用.ignore插件，为项目添加.gitignore文件，这样可以避免提交特殊项目文件。

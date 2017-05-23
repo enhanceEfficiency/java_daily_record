@@ -1,0 +1,5 @@
+1. 使用visio绘制流程图。
+2. 使用powerdesigner建cdm，cdm转pdm，pdm转sql。
+3. 写文档。
+4. linux系统命令行简单操作。使用ftp向linux传输文件。
+5. 使用Intellij Idea。
