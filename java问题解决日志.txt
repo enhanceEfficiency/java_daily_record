@@ -176,3 +176,31 @@ net start "memcached Server"
 24. 在使用@ResponseBody标签返回json时，已经引入了jackson的三个包，仍然报406错误。
 原因：@ResponseBody标签需要驱动才可正常使用。
 解决方案：在spring配置文件中增加<mvc:annotation-driven />标签。
+
+2017-05-24
+
+25. 在30修改了项目的配置文件fuiou.properties后，部署的文件一直不能自动修改，点redeploy和restart server均无效。
+原因：服务器更改过时间，在当前时间之后。时间恢复后，项目认为之前的文件是最新文件，所以不更新。
+解决方案：将项目删除重新部署。
+
+2017-06-14
+26. 生产上使用crontab执行测试脚本可以正常上传，执行正式脚本失败。
+原因：linux执行文件需要先使用chmod命令修改权限 chmodo 777 **.sh。
+
+2017-06-20
+27. 页面上提供下载pdf文件的功能，用于下载合同。
+　　分别在chrome,IE中进行测试。在chrome中正常，在IE中后台报错。
+错误信息为org.apache.catalina.connector.ClientAbortException: java.io.IOException
+解决方案
+   1.从网上查找，ClientAbortException: java.net.SocketException: Connection reset by peer: socket write error的原因是由于处理http连接时，正在输出内容时，用户关闭了IE，会出现一个"ClientAbortException"，属于I/O处理中出现的一个异常，应用服务器应该会捕捉。 
+　2. 客户端造成的,没有办法控制,而且后台会记录这个异常。
+　3.我发下并没有在输入的时候关闭浏览器的操作，不过可以确定一点是IE浏览器连接之后，强制关闭造成的IO异常，导致客户端请求中断；
+问题根源
+　　操作中发现，IE这个时候下载的动作不是浏览器自身的下载器进行的，而是迅雷插件执行的下载动作。如图，
+　　于是，我想办法恢复IE默认的下载器的功能。过程如下，
+　　（1）Internet选项，打开 ”管理下载项“：
+　　（2）在工具和扩展中找到了，迅雷下载支持，并且是启用的，然后禁用它：
+　　（3）重启 IE之后：进行下载操作，结果一切正常，问题解决：
+
+
+

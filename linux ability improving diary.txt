@@ -10,13 +10,15 @@
 查看 tar -ztvf xxx.tar.gz
 
 3.linux下配置java环境变量：
-用户级别 vim ~/.bashrc
+用户级别 vim ~/.bash_profile 和vim ~/.bashrc
 在文件末尾加入：
 export JAVA_HOME=/home/gsein/Software/jdk1.8.0_121
 export JRE_HOME=$JAVA_HOME/jre
 export CLASSPATH=.:$JAVA_HOME/lib/dt.jar:$JAVA_HOME/lib/tools.jar
 export PATH=$JAVA_HOME/bin:$PATH
 
+实时生效
+source ~/.bash_profile
 4.修改系统时间：
 date -s "2017-05-20 `date +%T`"
 
@@ -28,3 +30,80 @@ ps -ef|grep tomcat|grep -v grep|cut -c 9-15|xargs kill -9
 "grep -v grep" ——在列出的进程中去除含有关键字"grep"的进程(因为我们在前一步生成的grep进程也包含关键字)
 "cut -c 9-15" ——截取输入行的第9个字符到第15个字符，而这正好是进程号PID
 "xargs kill -9" ——xargs 命令是用来把前面命令的输出结果(PID)作为"kill -9"命令的参数，并执行该命令。"kill -9"会强行杀掉指定进程。
+
+6.关于FTP上传
+1) 可以使用lftp进行sftp连接：lftp -u ${USER},${PASSWORD} sftp://${HOST}:${PORT} 
+2) 在shell脚本中，命令替换：使用反引号``或${} 如：FILES=`find ${SRCDIR} -mmin -50 -name '*.txt'`
+3) 在shell脚本中，<<EOF和EOF之间的内容被视为标准输入
+4) 在shell脚本中，使用${}获取变量值。
+5) 使用bin命令进行二进制上传。
+
+7. shell向文件中输出 echo "abc" <<log.txt
+
+8. shell function内部使用$1调用第一个参数，以此类推，10以上的参数需要使用${10}，使用$@调用所有参数的列表，一般用于打印
+
+9. shell if语句 []与里面的语句间要有空格，then要换行，结束标识符为fi
+if [ statement ]
+then
+fi
+
+10. shell中判断不存在文件：! -e 文件名
+
+11. shell中判断数字相等 -eq （-ne -gt -lt）
+
+12. 使用${#array[@]}获取数组的长度，使用${#array[n]}获取数组中第n+1个元素的长度。
+
+13. shell中的for循环：
+for x in y
+do
+…
+done
+
+14. linux下设置静态IP地址
+vim /etc/sysconfig/network-scripts/ifcfg-eth0
+开始编辑，填写ip地址、子网掩码、网关、DNS等。其中“红框内的信息”是必须得有的。
+重启网络服务。service network restart或/etc/init.d/network restart
+ping网关，ping外网进行测试。都能ping通表示网络正常。
+---修改ip地址---
+即时生效:
+# ifconfig eth0 192.168.1.155 netmask 255.255.255.0
+重启生效:
+修改/etc/sysconfig/network-scripts/ifcfg-eth0
+---修改default gateway---
+即时生效:
+# route add default gw 192.168.1.1
+重启生效:
+修改/etc/sysconfig/network-scripts/ifcfg-eth0
+---修改dns---
+修改/etc/resolv.conf
+修改后即时生效，重启同样有效
+---修改host name---
+即时生效:
+# hostname test1
+重启生效:
+修改/etc/sysconfig/network
+
+15. ping -c 4 ip地址：模仿windows发送四个包
+
+16. CentOS在线安装 yum -y install vsftpd
+
+17. vsftpd服务的启动及关闭
+[root@rusky bdump]# chkconfig --list vsftpd
+vsftpd 0:off 1:off 2:off 3:off 4:off 5:off 6:off
+
+[root@rusky bdump]# chkconfig --level 35 vsftpd on
+
+[root@rusky bdump]# service vsftpd restart --启动/关闭命令为:service vsftpd start/stop 
+Shutting down vsftpd: [FAILED]
+Starting vsftpd for vsftpd: [ OK ]
+
+[root@rusky bdump]# service vsftpd status
+vsftpd (pid 5087) is running...
+[root@rusky bdump]#
+
+18. 主机访问虚拟机tomcat
+
+修改Linux系统防火墙配置需要修改 /etc/sysconfig/iptables 这个文件，如果要开放哪个端口，在里面添加一条
+ -A RH-Firewall-1-INPUT -m state --state NEW -m tcp -p tcp --dport 8080 -j ACCEPT
+就可以了，其中 8080 是要开放的端口号，然后重新启动linux的防火墙服务，
+/etc/init.d/iptables restart。  
