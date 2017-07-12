@@ -84,6 +84,7 @@ ping网关，ping外网进行测试。都能ping通表示网络正常。
 修改/etc/sysconfig/network
 
 15. ping -c 4 ip地址：模仿windows发送四个包
+telnet ip port 测试端口是否开放
 
 16. CentOS在线安装 yum -y install vsftpd
 
@@ -103,6 +104,7 @@ vsftpd (pid 5087) is running...
 
 18. 主机访问虚拟机tomcat
 
+iptables是linux的防火墙，查看防火墙的状态可以使用chkconfig --list iptables命令。
 修改Linux系统防火墙配置需要修改 /etc/sysconfig/iptables 这个文件，如果要开放哪个端口，在里面添加一条
  -A RH-Firewall-1-INPUT -m state --state NEW -m tcp -p tcp --dport 8080 -j ACCEPT
 就可以了，其中 8080 是要开放的端口号，然后重新启动linux的防火墙服务，
